@@ -1,0 +1,10 @@
+% macos
+
+# Remove quarantine attribute from file
+xattr -d com.apple.quarantine <filename>
+
+# Remove all "keep in dock" apps
+defaults write "com.apple.dock" "persistent-apps" -array; killall Dock
+
+$ filename: ls
+
