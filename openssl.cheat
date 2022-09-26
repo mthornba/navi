@@ -1,0 +1,21 @@
+% openssl
+
+# Fingerprint from ssh private key
+ssh-keygen -lf /dev/stdin <<<$(ssh-keygen -y -f <private_key>)
+
+$ private_key: echo '~/.ssh/id_rsa'
+
+# Generate passwd hash using python
+python -c 'import crypt,getpass; print(crypt.crypt(getpass.getpass(), crypt.mksalt(crypt.METHOD_SHA512)))'
+
+# Extract public key from private PEM
+openssl rsa -pubout -in .pem
+
+# Extract public key from SSH private key
+ssh-keygen -yf ~/.ssh/id_rsa
+
+# Refresh keychain
+eval $(keychain --quiet --eval)
+
+# Copy SSH public key to remote server
+ssh-copy-id -i /home/mthornba/.ssh/id_rsa -o PreferredAuthentications=password -o PubkeyAuthentication=no root@192.168.0.6
