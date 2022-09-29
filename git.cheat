@@ -7,8 +7,25 @@ git config --file=.gitconfig_personal.gitconfig --add user.email matt.thornback@
 git config --file=.gitconfig_personal.gitconfig --add core.sshCommand 'ssh -i /Users/matt/.ssh/id_rsa.mthornba_github -F /dev/null'
 git config --global --add includeif.gitdir:~/Code/personal/.path .gitconfig_personal.gitconfig
 
+# Get current commit hash
+git rev-parse --short HEAD
+
+# git diff, highlight characters
+git diff --color-words=.
+
+# git diff, highlight words
+git diff --color-words= 
+
+# Find commit where file was added
+git log --diff-filter=A -- <filename>
+
+# Find commits where diff contains <string>
+git log -S'<string>' -- <filename>
+
 % gh
 
 # Login to github.com
 gh auth login -p https -h github.com
 
+# Check login status
+gh auth status
