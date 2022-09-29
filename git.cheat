@@ -1,0 +1,14 @@
+% git
+
+# Create personal config
+cd ~
+git config --file=.gitconfig_personal.gitconfig --add user.name "mthornba"
+git config --file=.gitconfig_personal.gitconfig --add user.email matt.thornback@gmail.com
+git config --file=.gitconfig_personal.gitconfig --add core.sshCommand 'ssh -i /Users/matt/.ssh/id_rsa.mthornba_github -F /dev/null'
+git config --global --add includeif.gitdir:~/Code/personal/.path .gitconfig_personal.gitconfig
+
+% gh
+
+# Login to github.com
+gh auth login -p https -h github.com
+
