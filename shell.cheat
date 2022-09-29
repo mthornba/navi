@@ -66,6 +66,9 @@ nc termbin.com 9999 < <filename>
 # Cat multiple files with separator
 tail -n +1 *(.)
 
+# Cat multiple files with separator, handling spaces in filenames
+find *(.) -type f -printf "'%p'\n" | xargs tail -n +1
+
 % shell curl
 
 # Show response code
