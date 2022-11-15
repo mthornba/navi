@@ -19,3 +19,49 @@ eval $(keychain --quiet --eval)
 
 # Copy SSH public key to remote server
 ssh-copy-id -i /home/mthornba/.ssh/id_rsa -o PreferredAuthentications=password -o PubkeyAuthentication=no root@192.168.0.6
+
+# Validate cert
+openssl x509 -text -noout -in <cert.pem>
+
+# Validate cert chain
+openssl crl2pkcs7 -nocrl -certfile <chain.pem> | openssl pkcs7 -print_certs -text -noout
+
+# Generate CSR
+openssl req -new -newkey rsa:2048 -nodes -keyout <server>.key -out <server>.csr
+
+# Generate cert using CFSSL
+cfssl gencert -config <config_client.json> <client.json> | cfssljson -bare client
+
+# Generate Cert & Key
+openssl req -x509 -newkey rsa:2048 -nodes -keyout <url>.key -out <url>.crt -subj '/CN=<url>'
+
+# Convert P7B to CER
+openssl pkcs7 -print_certs -in <in.p7b> -out <out.cer>
+
+# Convert CER to PEM
+openssl x509 -inform der -in *.cer -out <out.pem>
+
+# Show full chain from PEM
+openssl crl2pkcs7 -nocrl -certfile <chain.pem> | openssl pkcs7 -print_certs -text -noout
+
+# Show values in PEM cert
+openssl x509 -text -noout -in <cert.pem>
+
+# Check that cert and key match
+openssl x509 -noout -modulus <cert.pem> | openssl md5; \
+openssl rsa -noout -modulus -in <key.pem> | openssl md5
+
+# Connect
+</dev/null openssl s_client -connect <url>:<port>
+
+# Connect and show certs
+</dev/null openssl s_client -showcerts -connect <url>:<port>
+
+% openssl, pipe from connect
+
+# Get SAN
+| openssl x509 -noout -ext subjectAltName
+
+# Show dates
+| openssl x509 -noout -subject -dates
+
